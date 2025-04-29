@@ -1,3 +1,5 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 namespace LigaPro_CalvaJ_RodriguezJ_RualesM
 {
     public class Program
@@ -5,6 +7,8 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<LigaProJJMContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("LigaProJJMContext") ?? throw new InvalidOperationException("Connection string 'LigaProJJMContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
