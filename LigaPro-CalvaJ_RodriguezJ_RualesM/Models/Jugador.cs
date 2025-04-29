@@ -28,6 +28,6 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Models
         [Required]
         public int EquipoId { get; set; }
         [ForeignKey("EquipoId")]
-        public Equipo Equipo { get; set; }
+        public Equipo? Equipo { get; set; }
     }
 }
