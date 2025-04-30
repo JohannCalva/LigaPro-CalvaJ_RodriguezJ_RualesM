@@ -6,36 +6,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LigaPro_CalvaJ_RodriguezJ_RualesM.Models;
+using LigaPro_CalvaJ_RodriguezJ_RualesM.Repositories;
 
 namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
 {
     public class JugadoresController : Controller
     {
-        private readonly LigaProJJMContext _context;
-
-        public JugadoresController(LigaProJJMContext context)
+        private readonly JugadorRepository _jugadorRepository;
+        private readonly EquipoRepository _equipoRepository;
+        public JugadoresController(JugadorRepository jugadorRepository, EquipoRepository equipoRepository)
         {
-            _context = context;
+            _jugadorRepository = jugadorRepository;
+            _equipoRepository = equipoRepository;
         }
 
         // GET: Jugadores
         public async Task<IActionResult> Index()
         {
-            var ligaProJJMContext = _context.Jugador.Include(j => j.Equipo);
-            return View(await ligaProJJMContext.ToListAsync());
+            var jugadores = await _jugadorRepository.ObtenerJugadores();
+            return View(jugadores);
         }
 
         // GET: Jugadores/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var jugador = await _context.Jugador
-                .Include(j => j.Equipo)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var jugador = await _jugadorRepository.ObtenerJugadorPorId(id);
             if (jugador == null)
             {
                 return NotFound();
@@ -45,12 +41,12 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
         }
 
         // GET: Jugadores/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["EquipoId"] = new SelectList(_context.Equipo, "Id", "Nombre");
+            var equipos = await _equipoRepository.ObtenerEquipos();
+            ViewData["EquipoId"] = new SelectList(equipos, "Id", "Nombre");
             return View();
         }
-
         // POST: Jugadores/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -60,28 +56,25 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(jugador);
-                await _context.SaveChangesAsync();
+                _jugadorRepository.CrearJugador(jugador);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EquipoId"] = new SelectList(_context.Equipo, "Id", "Nombre", jugador.EquipoId);
+            var equipos = await _equipoRepository.ObtenerEquipos();
+            ViewData["EquipoId"] = new SelectList(equipos, "Id", "Nombre", jugador.EquipoId);
             return View(jugador);
         }
 
         // GET: Jugadores/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var jugador = await _context.Jugador.FindAsync(id);
+            var jugador = await _jugadorRepository.ObtenerJugadorPorId(id);
             if (jugador == null)
             {
                 return NotFound();
             }
-            ViewData["EquipoId"] = new SelectList(_context.Equipo, "Id", "Nombre", jugador.EquipoId);
+            var equipos = await _equipoRepository.ObtenerEquipos();
+            ViewData["EquipoId"] = new SelectList(equipos, "Id", "Nombre", jugador.EquipoId);
             return View(jugador);
         }
 
@@ -101,12 +94,11 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
             {
                 try
                 {
-                    _context.Update(jugador);
-                    await _context.SaveChangesAsync();
+                    _jugadorRepository.EditarJugador(jugador);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JugadorExists(jugador.Id))
+                    if (!await _jugadorRepository.JugadorExiste(jugador.Id))
                     {
                         return NotFound();
                     }
@@ -117,21 +109,16 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EquipoId"] = new SelectList(_context.Equipo, "Id", "Nombre", jugador.EquipoId);
+            var equipos = await _equipoRepository.ObtenerEquipos();
+            ViewData["EquipoId"] = new SelectList(equipos, "Id", "Nombre", jugador.EquipoId);
             return View(jugador);
         }
 
         // GET: Jugadores/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var jugador = await _context.Jugador
-                .Include(j => j.Equipo)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var jugador = await _jugadorRepository.ObtenerJugadorPorId(id);
             if (jugador == null)
             {
                 return NotFound();
@@ -145,19 +132,8 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var jugador = await _context.Jugador.FindAsync(id);
-            if (jugador != null)
-            {
-                _context.Jugador.Remove(jugador);
-            }
-
-            await _context.SaveChangesAsync();
+            await _jugadorRepository.EliminarJugador(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool JugadorExists(int id)
-        {
-            return _context.Jugador.Any(e => e.Id == id);
         }
     }
 }

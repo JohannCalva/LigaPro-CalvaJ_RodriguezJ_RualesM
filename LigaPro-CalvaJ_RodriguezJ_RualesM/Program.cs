@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LigaPro_CalvaJ_RodriguezJ_RualesM.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 namespace LigaPro_CalvaJ_RodriguezJ_RualesM
 {
@@ -12,6 +13,10 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            //Agregamos los repositorios
+            builder.Services.AddScoped<EquipoRepository>();
+            builder.Services.AddScoped<JugadorRepository>();
 
             var app = builder.Build();
 

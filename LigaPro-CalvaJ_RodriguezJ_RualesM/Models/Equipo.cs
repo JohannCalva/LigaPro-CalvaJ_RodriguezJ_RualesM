@@ -17,7 +17,7 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Models
         public string? Descripcion { get; set; }
         [NotMapped]
         [DisplayName("Partidos Jugados")]
-        public int PartidosJugados
+        public int? PartidosJugados
         {
             get
             {
@@ -33,7 +33,7 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Models
         [DisplayName("Partidos Perdidos")]
         public int PartidosPerdidos { get; set; }
         [DisplayName("Puntos")]
-        public int Puntos
+        public int? Puntos
         {
             get
             {
@@ -41,6 +41,5 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Models
                 return puntos;
             }
         }
-        public ICollection<Jugador> Jugadores { get; set; }
     }
 }
