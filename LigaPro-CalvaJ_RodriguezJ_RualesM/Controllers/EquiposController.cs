@@ -6,34 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LigaPro_CalvaJ_RodriguezJ_RualesM.Models;
+using LigaPro_CalvaJ_RodriguezJ_RualesM.Repositories;
 
 namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
 {
     public class EquiposController : Controller
     {
-        private readonly LigaProJJMContext _context;
-
-        public EquiposController(LigaProJJMContext context)
+        private readonly EquipoRepository _repository;
+        public EquiposController(EquipoRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: Equipos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Equipo.ToListAsync());
+            var equipos = await _repository.ObtenerEquipos();
+            return View(equipos);
         }
 
         // GET: Equipos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var equipo = await _context.Equipo
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var equipo = await _repository.ObtenerEquipoPorId(id);
             if (equipo == null)
             {
                 return NotFound();
@@ -57,22 +52,17 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(equipo);
-                await _context.SaveChangesAsync();
+                await _repository.CrearEquipo(equipo);
                 return RedirectToAction(nameof(Index));
             }
             return View(equipo);
         }
 
         // GET: Equipos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var equipo = await _context.Equipo.FindAsync(id);
+            var equipo = await _repository.ObtenerEquipoPorId(id);
             if (equipo == null)
             {
                 return NotFound();
@@ -96,12 +86,12 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
             {
                 try
                 {
-                    _context.Update(equipo);
-                    await _context.SaveChangesAsync();
+                   
+                    await _repository.EditarEquipo(equipo);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EquipoExists(equipo.Id))
+                    if (!await _repository.EquipoExiste(equipo.Id))
                     {
                         return NotFound();
                     }
@@ -116,15 +106,10 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
         }
 
         // GET: Equipos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var equipo = await _context.Equipo
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var equipo = await _repository.ObtenerEquipoPorId(id);
             if (equipo == null)
             {
                 return NotFound();
@@ -138,19 +123,8 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var equipo = await _context.Equipo.FindAsync(id);
-            if (equipo != null)
-            {
-                _context.Equipo.Remove(equipo);
-            }
-
-            await _context.SaveChangesAsync();
+            await _repository.EliminarEquipo(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool EquipoExists(int id)
-        {
-            return _context.Equipo.Any(e => e.Id == id);
         }
     }
 }

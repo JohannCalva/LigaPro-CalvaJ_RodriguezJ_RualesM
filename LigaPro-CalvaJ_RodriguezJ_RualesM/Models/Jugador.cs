@@ -17,6 +17,9 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Models
         [Range(1, 99, ErrorMessage ="El numero de camiseta debe estar entre 1 y 99.")]
         public int NumeroCamiseta { get; set; }
         [Required]
+        [MaxLength(20)]
+        public string Posicion { get; set; }
+        [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Los goles deben ser igual o mayor a 0.")]
         public int Goles { get; set; }
         [Required]
