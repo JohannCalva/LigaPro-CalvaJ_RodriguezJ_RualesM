@@ -163,17 +163,6 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
             {
                 jugadores = jugadores.OrderByDescending(j => j.Asistencias).Take(5).ToList();
             }
-            /*else
-            {
-                foreach (var equipo in equipos)
-                {
-                    var sueldo = await _context.Jugador.Where(j => j.EquipoId == equipo.Id).SumAsync(j => sueldo);
-                    equipo.Gastos = sueldo;
-                }
-                var gastos = equipos.OrderByDescending(e => e.Gastos).Take(5).ToList();
-                return View(gastos);
-            }*/
-
             return View(jugadores);
         }
     }

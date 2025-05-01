@@ -13,9 +13,12 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
     public class EquiposController : Controller
     {
         private readonly EquipoRepository _repository;
-        public EquiposController(EquipoRepository repository)
+        private readonly LigaProJJMContext _context;
+
+        public EquiposController(EquipoRepository repository, LigaProJJMContext context)
         {
             _repository = repository;
+            _context = context;
         }
 
         // GET: Equipos
@@ -125,6 +128,19 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
         {
             await _repository.EliminarEquipo(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Gastos()
+        {
+            var equipos = await _context.Equipo.ToListAsync();
+
+            foreach (var equipo in equipos)
+            {
+                equipo.Gastos = await _context.Jugador.Where(j => j.EquipoId == equipo.Id).SumAsync(j => j.Sueldo);
+            }
+            var gastos = equipos
+                .OrderByDescending(e => e.Gastos).Take(5).ToList();
+            return View(gastos); 
         }
     }
 }

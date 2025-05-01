@@ -1,0 +1,26 @@
+﻿@model IEnumerable<LigaPro_CalvaJ_RodriguezJ_RualesM.Models.Equipo>
+
+@{
+    ViewData["Title"] = "Gastos";
+}
+
+<h2>@ViewData["Title"]</h2>
+ 
+<!-- Generado con Ia -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Gastos</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var equipo in Model)
+        {
+            <tr>
+                <td>@equipo.Nombre</td>
+                <td>$@equipo.Gastos</td>
+            </tr>
+        }
+    </tbody>
+</table>
