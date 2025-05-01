@@ -1,20 +1,43 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Liga Pro Ecuador";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Liga Pro Ecuador</h1>
-    <p>Conoce los equipos de la Liga Pro Ecuador!</p>
-    <div id="carousel" class="carousel slide">
-        <div class="carousel-inner">
+<header class="bg-dark text-white py-5 mb-4">
+    <div class="container text-center">
+        <h1 class="display-3">Liga Pro Ecuador</h1>
+        <p class="lead">El mejor fútbol del Ecuador desde 2019</p>
+    </div>
+</header>
+
+<!-- Carrusel mejorado -->
+<div class="container mb-5">
+    <div id="carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Liga de Quito"></button>
+            <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Barcelona SC"></button>
+            <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Independiente del Valle"></button>
+        </div>
+        <div class="carousel-inner rounded shadow">
             <div class="carousel-item active">
                 <img src="~/images/ldu.jpg" class="d-block w-100" alt="Liga de Quito">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Liga Deportiva Universitaria</h2>
+                    <p>El Rey de Copas del Ecuador</p>
+                </div>
             </div>
             <div class="carousel-item">
                 <img src="~/images/bsc.jpg" class="d-block w-100" alt="Barcelona SC">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Barcelona Sporting Club</h2>
+                    <p>El Ídolo del Astillero</p>
+                </div>
             </div>
             <div class="carousel-item">
                 <img src="~/images/idv.jpg" class="d-block w-100" alt="Independiente del Valle">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Independiente del Valle</h2>
+                    <p>Los Negriazules de Sangolquí</p>
+                </div>
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
@@ -25,5 +48,86 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
+    </div>
+</div>
+
+<!-- Historia de los equipos -->
+<div class="container py-4">
+    <h2 class="text-center mb-5">Historia de los Principales Equipos</h2>
+    
+    <div class="row align-items-md-stretch mb-4">
+        <div class="col-md-6">
+            <div class="h-100 p-5 bg-light border rounded-3">
+                <h3>Liga Deportiva Universitaria</h3>
+                <p>Fundado el 11 de enero de 1930, LDU es uno de los clubes más importantes del Ecuador. Conocido como "Los Albos" o "El Rey de Copas", es el único equipo ecuatoriano que ha ganado la Copa Libertadores (2008), la Copa Sudamericana (2009) y la Recopa Sudamericana (2009 y 2010).</p>
+                <button class="btn btn-outline-primary" type="button">Ver más detalles</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="h-100 p-5 text-white bg-dark rounded-3">
+                <h3>Barcelona Sporting Club</h3>
+                <p>Fundado el 1 de mayo de 1925, Barcelona SC es el equipo más popular del Ecuador. Conocido como "El Ídolo del Astillero", ha ganado 16 campeonatos nacionales. Es el primer equipo ecuatoriano en llegar a una final de Copa Libertadores, logrando esta hazaña en 1990 y 1998.</p>
+                <button class="btn btn-outline-warning" type="button">Ver más detalles</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row align-items-md-stretch">
+        <div class="col-md-6">
+            <div class="h-100 p-5 text-white bg-primary rounded-3">
+                <h3>Independiente del Valle</h3>
+                <p>Fundado el 1 de marzo de 1958, Independiente del Valle se ha destacado en los últimos años por su excelente trabajo de formación. Los "Negriazules" ganaron la Copa Sudamericana en 2019 y 2022, y fueron subcampeones de la Copa Libertadores en 2016.</p>
+                <button class="btn btn-outline-light" type="button">Ver más detalles</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="h-100 p-5 bg-success text-white rounded-3">
+                <h3>Emelec</h3>
+                <p>Fundado el 28 de abril de 1929, el Club Sport Emelec es conocido como "El Bombillo" o "El Ballet Azul". Ha ganado 14 campeonatos nacionales y es uno de los equipos más tradicionales del país, con una gran rivalidad con Barcelona SC en el "Clásico del Astillero".</p>
+                <button class="btn btn-outline-light" type="button">Ver más detalles</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sección de estadísticas -->
+<div class="container py-5 bg-light rounded-3 my-5">
+    <div class="row text-center">
+        <div class="col-md-3">
+            <div class="p-3">
+                <h2 class="display-4">16</h2>
+                <p class="lead">Equipos</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3">
+                <h2 class="display-4">30</h2>
+                <p class="lead">Fechas</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3">
+                <h2 class="display-4">240</h2>
+                <p class="lead">Partidos</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3">
+                <h2 class="display-4">1</h2>
+                <p class="lead">Campeón</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to action -->
+<div class="container mb-5">
+    <div class="p-5 text-center bg-dark text-white rounded-3">
+        <h2 class="display-5 fw-bold">Conoce más sobre la Liga Pro</h2>
+        <p class="lead mb-4">Explora todos los equipos, jugadores y estadísticas de la mejor liga de fútbol ecuatoriano.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="/Equipos" class="btn btn-warning btn-lg px-4 me-md-2">Ver Equipos</a>
+            <a href="/Jugadores" class="btn btn-outline-light btn-lg px-4">Ver Jugadores</a>
+        </div>
     </div>
 </div>
