@@ -14,19 +14,32 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
     {
         private readonly JugadorRepository _jugadorRepository;
         private readonly EquipoRepository _equipoRepository;
-        public JugadoresController(JugadorRepository jugadorRepository, EquipoRepository equipoRepository)
+        private readonly LigaProJJMContext _context;
+
+        public JugadoresController(JugadorRepository jugadorRepository, EquipoRepository equipoRepository, LigaProJJMContext context)
         {
             _jugadorRepository = jugadorRepository;
             _equipoRepository = equipoRepository;
+            _context = context;
         }
 
         // GET: Jugadores
-        public async Task<IActionResult> Index()
+        //Dios es grande ;-;
+        public async Task<IActionResult> Index(int id)
         {
-            var jugadores = await _jugadorRepository.ObtenerJugadores();
+            var equipos = await _context.Equipo.ToListAsync();
+            equipos.Insert(0, new Equipo { Id = 0, Nombre = "Todos" });
+
+            var jugadores = await _context.Jugador.ToListAsync();
+            if (id != 0)
+            {
+                jugadores = jugadores.Where(j => j.EquipoId == id).ToList();
+            }
+
+            ViewBag.EquipoId = new SelectList(equipos, "Id", "Nombre");
             return View(jugadores);
         }
-
+        
         // GET: Jugadores/Details/5
         public async Task<IActionResult> Details(int id)
         {
@@ -56,7 +69,7 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
         {
             if (ModelState.IsValid)
             {
-                _jugadorRepository.CrearJugador(jugador);
+                await _jugadorRepository.CrearJugador(jugador);
                 return RedirectToAction(nameof(Index));
             }
             var equipos = await _equipoRepository.ObtenerEquipos();

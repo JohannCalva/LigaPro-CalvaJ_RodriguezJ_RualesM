@@ -48,5 +48,7 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Repositories
         {
             return await _context.Jugador.Include(j => j.Equipo).Where(j => j.EquipoId == equipoId).ToListAsync();
         }
+
+
     }
 }

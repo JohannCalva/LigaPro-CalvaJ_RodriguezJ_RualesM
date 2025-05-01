@@ -18,7 +18,9 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Repositories
         }
         public async Task<List<Equipo>> ObtenerEquipos()
         {
-            return await _context.Equipo.ToListAsync();
+            var lista = await _context.Equipo.ToListAsync();
+            var listaEnOrden = lista.OrderByDescending(e => e.Puntos).ToList();
+            return listaEnOrden;
         }
 
         public async Task<Equipo?> ObtenerEquipoPorId(int id)

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<LigaPro_CalvaJ_RodriguezJ_RualesM.Models.Jugador>
+﻿@using LigaPro_CalvaJ_RodriguezJ_RualesM.Models
+@model IEnumerable<LigaPro_CalvaJ_RodriguezJ_RualesM.Models.Jugador>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,6 +10,11 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form method="get" asp-action="Index">
+    <label for="EquipoId">Equipo</label>
+    <select id="EquipoId" name="id" class="form-control" asp-items="ViewBag.EquipoId"></select>
+    <button type="submit">Filtrar</button>
+</form>
 <table class="table">
     <thead>
         <tr>
