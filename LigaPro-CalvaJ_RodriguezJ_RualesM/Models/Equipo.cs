@@ -13,7 +13,7 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Models
         [Required]
         public string Nombre { get; set; }
         [DisplayName("Logo")]
-        public string? Logo { get; set; }   
+        public string? Logo { get; set; }
         public string? Descripcion { get; set; }
         [NotMapped]
         [DisplayName("Partidos Jugados")]
@@ -41,5 +41,7 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Models
                 return puntos;
             }
         }
+        [NotMapped]
+        public decimal Gastos { get; set; }
     }
 }

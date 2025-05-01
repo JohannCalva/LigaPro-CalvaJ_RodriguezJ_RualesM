@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LigaPro_CalvaJ_RodriguezJ_RualesM.Models;
 using LigaPro_CalvaJ_RodriguezJ_RualesM.Repositories;
+using NuGet.Protocol;
 
 namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
 {
@@ -147,6 +148,33 @@ namespace LigaPro_CalvaJ_RodriguezJ_RualesM.Controllers
         {
             await _jugadorRepository.EliminarJugador(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Jugadores/Destacados
+        public async Task<IActionResult> Destacados(string Opcion)
+        {
+            var equipos = await _context.Equipo.ToListAsync();
+            var jugadores = await _context.Jugador.ToListAsync();
+            if (Opcion == "Goles")
+            {
+                jugadores = jugadores.OrderByDescending(j => j.Goles).Take(5).ToList();
+            }
+            else if (Opcion == "Asistencias")
+            {
+                jugadores = jugadores.OrderByDescending(j => j.Asistencias).Take(5).ToList();
+            }
+            /*else
+            {
+                foreach (var equipo in equipos)
+                {
+                    var sueldo = await _context.Jugador.Where(j => j.EquipoId == equipo.Id).SumAsync(j => sueldo);
+                    equipo.Gastos = sueldo;
+                }
+                var gastos = equipos.OrderByDescending(e => e.Gastos).Take(5).ToList();
+                return View(gastos);
+            }*/
+
+            return View(jugadores);
         }
     }
 }
